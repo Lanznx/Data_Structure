@@ -22,13 +22,14 @@ public class Tester {
 
     public static ArrayList<Integer> insertArrayList(int k) {
         System.out.println("------------------------- insertArrayList -------------------------");
-        long startTime = System.nanoTime(); // nanoseconds
-        System.out.println("startTime : " + startTime);
         ArrayList array = new ArrayList<Integer>();
+        long upperBound = (int) Math.pow(2, k);
         try {
             OutputStream os = new FileOutputStream("01_Insert_ArrayList.csv");
             PrintWriter w = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
-            for (long i = 0; i < (int) Math.pow(2, k); i++) {
+            long startTime = System.nanoTime(); // nanoseconds
+            System.out.println("startTime : " + startTime);
+            for (long i = 0; i < upperBound; i++) {
                 Random r = new Random();
                 int element = r.nextInt(10);
                 array.add(element);
@@ -41,31 +42,30 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
-
         return array;
-
     }
 
     public static Vector<Integer> insertVector(int k) {
-        Vector vector = new Vector<Integer>();
         System.out.println("------------------------- insertVector -------------------------");
-        long startTime = System.nanoTime(); // nanoseconds
-        System.out.println("startTime : " + startTime);
+        Vector vector = new Vector<Integer>();
+        long upperBound = (int) Math.pow(2, k);
         try {
             OutputStream os = new FileOutputStream("02_Insert_Vector.csv");
             PrintWriter w = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
-            for (long i = 0; i < (int) Math.pow(2, k); i++) {
+            long startTime = System.nanoTime(); // nanoseconds
+            System.out.println("startTime : " + startTime);
+            for (long i = 0; i < upperBound; i++) {
                 Random r = new Random();
                 int element = r.nextInt(10);
                 vector.add(element);
@@ -78,17 +78,17 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
 
         return vector;
     }
@@ -96,12 +96,13 @@ public class Tester {
     public static LinkedList<Integer> insertLinkedList(int k) {
         LinkedList linkedList = new LinkedList<Integer>();
         System.out.println("------------------------- insertLinkedList -------------------------");
-        long startTime = System.nanoTime(); // nanoseconds
-        System.out.println("startTime : " + startTime);
+        long upperBound = (int) Math.pow(2, k);
         try {
             OutputStream os = new FileOutputStream("03_Insert_LinkedList.csv");
             PrintWriter w = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
-            for (long i = 0; i < (int) Math.pow(2, k); i++) {
+            long startTime = System.nanoTime(); // nanoseconds
+            System.out.println("startTime : " + startTime);
+            for (long i = 0; i < upperBound; i++) {
                 Random r = new Random();
                 int element = r.nextInt(10);
                 linkedList.add(element);
@@ -114,17 +115,17 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
 
         return linkedList;
     }
@@ -148,16 +149,17 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
+
         return sum;
     }
 
@@ -180,16 +182,17 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
+
         return sum;
     }
 
@@ -212,16 +215,17 @@ public class Tester {
                     w.print(i + "," + unitDuration + "\n");
                 }
             }
+            long endTime = System.nanoTime();
+            long totalDuration = (endTime - startTime);
+            System.out.println("totalDuration : " + totalDuration);
+            System.out.println("endTime : " + endTime);
+            System.out.println("\n");
             w.flush();
             w.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        long endTime = System.nanoTime();
-        long totalDuration = (endTime - startTime);
-        System.out.println("totalDuration : " + totalDuration);
-        System.out.println("endTime : " + endTime);
-        System.out.println("\n");
+
         return sum;
     }
 }
