@@ -90,28 +90,28 @@ class QuickSort {
   public static void main(String[] args) {
     GenerateArr generateArr = new GenerateArr();
     QuickSort quickSort = new QuickSort();
-    // for (int i = 23; i < 28; i++) {
-    // int[] arr = generateArr.generateRandomArray(i);
-    // long startTime = System.nanoTime();
-    // quickSort.lomutoQuickSort(arr, 0, arr.length - 1);
-    // long endTime = System.nanoTime();
-    // System.out.printf("%d\n", endTime - startTime);
-    // }
+    for (int i = 23; i < 28; i++) {
+    int[] arr = generateArr.generateRandomArray(i);
+    long startTime = System.nanoTime();
+    quickSort.lomutoQuickSort(arr, 0, arr.length - 1);
+    long endTime = System.nanoTime();
+    System.out.printf("%d\n", endTime - startTime);
+    }
 
-    // System.out.printf("===================\n");
+    System.out.printf("===================\n");
     
-    // for (int i = 15; i < 28; i++) {
-    //   int[] arr = generateArr.generateRandomArray(i);
-    //   long startTime = System.nanoTime();
-    //   quickSort.hoareQuickSort(arr, 0, arr.length - 1);
-    //   long endTime = System.nanoTime();
-    //   System.out.printf("%d\n", endTime - startTime);
-    //   for (int j = 0; j < arr.length; j++) {
-    //     System.out.println(arr[j]);
-    //   }
-    // }
+    for (int i = 15; i < 28; i++) {
+      int[] arr = generateArr.generateRandomArray(i);
+      long startTime = System.nanoTime();
+      quickSort.hoareQuickSort(arr, 0, arr.length - 1);
+      long endTime = System.nanoTime();
+      System.out.printf("%d\n", endTime - startTime);
+      for (int j = 0; j < arr.length; j++) {
+        System.out.println(arr[j]);
+      }
+    }
 
-    // System.out.printf("===================\n");
+    System.out.printf("===================\n");
 
     for (int i = 15; i < 28; i++) {
       int[] arr = generateArr.generateRandomArray(i);
