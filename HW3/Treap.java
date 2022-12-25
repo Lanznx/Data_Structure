@@ -1,181 +1,216 @@
-// https://www.sanfoundry.com/java-program-implement-treap/
-/**
- *  Java Program to Implement Treap
- **/
-
+// https://www.techiedelight.com/zh-tw/implementation-treap-data-structure-cpp-java-insert-search-delete/
 import java.util.Random;
 
-/** Class TreapNode **/
+// 一個 Treap 節點
 class TreapNode {
-  TreapNode left, right;
-  int priority, element;
+    int data;
+    int priority;
+    TreapNode left, right;
 
-  /** Constructor **/
-  public TreapNode() {
-    this.element = 0;
-    this.left = this;
-    this.right = this;
-    this.priority = Integer.MAX_VALUE;
-  }
-
-  /** Constructor **/
-  public TreapNode(int ele) {
-    this(ele, null, null);
-  }
-
-  /** Constructor **/
-  public TreapNode(int ele, TreapNode left, TreapNode right) {
-    this.element = ele;
-    this.left = left;
-    this.right = right;
-    this.priority = new Random().nextInt();
-  }
+    // 構造函數
+    TreapNode(int data) {
+        this.data = data;
+        this.priority = new Random().nextInt(Integer.MAX_VALUE);
+        this.left = this.right = null;
+    }
 }
 
-/** Class TreapTree **/
-class TreapTree {
-  private TreapNode root;
-  private static TreapNode nil = new TreapNode();
+class Main {
+    /*
+     * 左旋轉給定treap的函數
+     * 
+     * r R
+     * / \ 左旋轉 / \
+     * L R ———> r Y
+     * / \ / \
+     * X Y L X
+     */
+    public static TreapNode rotateLeft(TreapNode root) {
+        TreapNode R = root.right;
+        TreapNode X = root.right.left;
 
-  /** Constructor **/
-  public TreapTree() {
-    root = nil;
-  }
+        // 旋轉
+        R.left = root;
+        root.right = X;
 
-  public static void main(String[] args) {
-    for (int i = 10; i < 30; i++) {
-      TreapTree t = new TreapTree();
-      long insertStartTime = System.nanoTime();
-      for (int j = 0; j < Math.pow(2, i); j++) {
-        Random r = new Random();
-        int upperBound = (int) Math.pow(2, 30);
-        t.insert(r.nextInt(upperBound));
-      }
-      long insertEndTime = System.nanoTime();
-      for (int j = 0; j < 100000; j++) {
-        Random r = new Random();
-        int upperBound = (int) Math.pow(2, 30);
-        t.search(r.nextInt(upperBound));
-      }
-      long searchEndTime = System.nanoTime();
-      System.out.printf("%d,%d\n",
-          insertEndTime - insertStartTime,
-          searchEndTime - insertEndTime);
-    }
-  }
-
-  /** Function to check if tree is empty **/
-  public boolean isEmpty() {
-    return root == nil;
-  }
-
-  /** Make the tree logically empty **/
-  public void makeEmpty() {
-    root = nil;
-  }
-
-  /** Functions to insert data **/
-  public void insert(int X) {
-    root = insert(X, root);
-  }
-
-  private TreapNode insert(int X, TreapNode T) {
-    if (T == nil)
-      return new TreapNode(X, nil, nil);
-    else if (X < T.element) {
-      T.left = insert(X, T.left);
-      if (T.left.priority < T.priority) {
-        TreapNode L = T.left;
-        T.left = L.right;
-        L.right = T;
-        return L;
-      }
-    } else if (X > T.element) {
-      T.right = insert(X, T.right);
-      if (T.right.priority < T.priority) {
-        TreapNode R = T.right;
-        T.right = R.left;
-        R.left = T;
+        // 設置一個新的根
         return R;
-      }
     }
-    return T;
-  }
 
-  /** Functions to count number of nodes **/
-  public int countNodes() {
-    return countNodes(root);
-  }
+    /*
+     * 向右旋轉給定的treap的函數
+     * 
+     * r L
+     * / \ 向右旋轉 / \
+     * L R ———> X r
+     * / \ / \
+     * X Y Y R
+     */
+    public static TreapNode rotateRight(TreapNode root) {
+        TreapNode L = root.left;
+        TreapNode Y = root.left.right;
 
-  private int countNodes(TreapNode r) {
-    if (r == nil)
-      return 0;
-    else {
-      int l = 1;
-      l += countNodes(r.left);
-      l += countNodes(r.right);
-      return l;
+        // 旋轉
+        L.right = root;
+        root.left = Y;
+
+        // 設置一個新的根
+        return L;
     }
-  }
 
-  /** Functions to search for an element **/
-  public boolean search(int val) {
-    return search(root, val);
-  }
+    // 將具有優先級的給定鍵插入到treap中的遞歸的函數
+    public static TreapNode insertNode(TreapNode root, int data) {
+        // 基本情況
+        if (root == null) {
+            return new TreapNode(data);
+        }
+        // 如果數據小於根節點，則插入左子樹；
+        // 否則，插入右子樹
+        if (data < root.data) {
+            root.left = insertNode(root.left, data);
 
-  private boolean search(TreapNode r, int val) {
-    boolean found = false;
-    while ((r != nil) && !found) {
-      int rval = r.element;
-      if (val < rval)
-        r = r.left;
-      else if (val > rval)
-        r = r.right;
-      else {
-        found = true;
-        break;
-      }
-      found = search(r, val);
+            // 如果堆屬性被破壞，則向右旋轉
+            if (root.left != null && root.left.priority > root.priority) {
+                root = rotateRight(root);
+            }
+        } else {
+            root.right = insertNode(root.right, data);
+
+            // 如果違反了堆屬性，則向左旋轉
+            if (root.right != null && root.right.priority > root.priority) {
+                root = rotateLeft(root);
+            }
+        }
+
+        return root;
     }
-    return found;
-  }
 
-  /** Function for inorder traversal **/
-  public void inorder() {
-    inorder(root);
-  }
+    // 遞歸的函數在給定的treap中搜索一個鍵
+    public static boolean searchNode(TreapNode root, int key) {
+        // 如果鍵不存在於樹中
+        if (root == null) {
+            return false;
+        }
 
-  private void inorder(TreapNode r) {
-    if (r != nil) {
-      inorder(r.left);
-      System.out.print(r.element + " ");
-      inorder(r.right);
+        // 如果找到密鑰
+        if (root.data == key) {
+            return true;
+        }
+
+        // 如果key小於根節點，則在左子樹中搜索
+        if (key < root.data) {
+            return searchNode(root.left, key);
+        }
+
+        // 否則，在右子樹中搜索
+        return searchNode(root.right, key);
     }
-  }
 
-  /** Function for preorder traversal **/
-  public void preorder() {
-    preorder(root);
-  }
+    // 從給定的treap中刪除一個鍵的遞歸的函數
+    public static TreapNode deleteNode(TreapNode root, int key) {
+        // 基本情況：在樹中找不到鍵
+        if (root == null) {
+            return null;
+        }
 
-  private void preorder(TreapNode r) {
-    if (r != nil) {
-      System.out.print(r.element + " ");
-      preorder(r.left);
-      preorder(r.right);
+        // 如果key小於根節點，則遞歸左子樹
+        if (key < root.data) {
+            root.left = deleteNode(root.left, key);
+        }
+
+        // 如果key大於根節點，則遞歸到右子樹
+        else if (key > root.data) {
+            root.right = deleteNode(root.right, key);
+        }
+
+        // 如果找到密鑰
+        else {
+            // 案例一：要刪除的節點沒有子節點(是葉子節點)
+            if (root.left == null && root.right == null) {
+                // 釋放內存並將root更新為null
+                root = null;
+            }
+
+            // 情況2：要刪除的節點有兩個孩子
+            else if (root.left != null && root.right != null) {
+                // 如果左孩子的優先級低於右孩子
+                if (root.left.priority < root.right.priority) {
+                    // 在根上調用 `rotateLeft()`
+                    root = rotateLeft(root);
+
+                    // 遞歸刪除左孩子
+                    root.left = deleteNode(root.left, key);
+                } else {
+                    // 在根上調用 `rotateRight()`
+                    root = rotateRight(root);
+
+                    // 遞歸刪除右孩子
+                    root.right = deleteNode(root.right, key);
+                }
+            }
+
+            // 案例3：要刪除的節點只有一個孩子
+            else {
+                // 選擇一個子節點
+                TreapNode child = (root.left != null) ? root.left : root.right;
+                root = child;
+            }
+        }
+        return root;
     }
-  }
 
-  /** Function for postorder traversal **/
-  public void postorder() {
-    postorder(root);
-  }
+    // 實用函數來打印一個treap的二維視圖
+    // 反向中序遍歷
+    public static void printTreap(TreapNode root, int space) {
+        final int height = 10;
 
-  private void postorder(TreapNode r) {
-    if (r != nil) {
-      postorder(r.left);
-      postorder(r.right);
-      System.out.print(r.element + " ");
+        // 基本情況
+        if (root == null) {
+            return;
+        }
+
+        // 增加關卡之間的距離
+        space += height;
+
+        // 先打印右孩子
+        printTreap(root.right, space);
+        System.lineSeparator();
+
+        // 用空格填充後打印當前節點
+        for (int i = height; i < space; i++) {
+            System.out.print(' ');
+        }
+
+        System.out.println(root.data + "(" + root.priority + ")");
+
+        // 打印左孩子
+        System.lineSeparator();
+        printTreap(root.left, space);
     }
-  }
+
+    public static void main(String[] args) {
+        for (int i = 10; i < 30; i++) {
+            TreapNode t = null;
+            long insertStartTime = System.nanoTime();
+            for (int j = 0; j < Math.pow(2, i); j++) {
+                Random r = new Random();
+                int upperBound = (int) Math.pow(2, 30);
+                int ans = r.nextInt(upperBound);
+                t = insertNode(t, ans);
+            }
+
+            long insertEndTime = System.nanoTime();
+            for (int j = 0; j < 100000; j++) {
+                Random r = new Random();
+                int upperBound = (int) Math.pow(2, 30);
+                int ans = r.nextInt(upperBound);
+                searchNode(t, ans);
+            }
+
+            long searchEndTime = System.nanoTime();
+            System.out.printf("%d,%d\n",
+                    insertEndTime - insertStartTime,
+                    searchEndTime - insertEndTime);
+        }
+    }
 }
