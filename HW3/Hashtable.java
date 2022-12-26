@@ -1,7 +1,7 @@
 import java.util.Hashtable;
 import java.util.Random;
 
-class Hashtable1 {
+class Main {
   public static void main(String args[]) {
     for (int i = 10; i < 30; i++) {
       Hashtable<Integer, Integer> hm = new Hashtable<Integer, Integer>();

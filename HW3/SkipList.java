@@ -155,8 +155,8 @@ public class SkipList<T extends Comparable<? super T>> implements SkippableList<
         for (int i = LEVELS-1; i >= 0; i--) {
             if ((result = head.search(data, i, print)) != null) {
                 if (print) {
-                    System.out.println("Found " + data.toString() 
-                        + " at level " + i + ", so stopped" );
+                    // System.out.println("Found " + data.toString() 
+                    //     + " at level " + i + ", so stopped" );
                     System.out.println();
                 }
                 break;
